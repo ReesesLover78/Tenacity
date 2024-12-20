@@ -83,7 +83,7 @@ GuiLibrary.ArrayList.Add = function(name)
 	Item.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 	Item.BackgroundTransparency = 0.5
 	Item.Name = name:lower()
-	Item.TextColor3 = Theme.Color1
+	Item.TextColor3 = GuiLibrary.Theme.Color1
 	Item.TextSize = 14
 	Item.Size = UDim2.new(0.01, TextService:GetTextSize(Item.Text, Item.TextSize, Item.Font, Vector2.new(0, 0)).X, 0.03, 0)
 
@@ -121,7 +121,7 @@ task.spawn(function()
 		for i, v in ipairs(sortedChildren) do
 			if v:IsA("TextLabel") then
 				local waveFactor = math.sin((i + Offset) * 0.3) * 0.5 + 0.5
-				v.TextColor3 = Theme.Color1:Lerp(Theme.Color2, waveFactor)
+				v.TextColor3 = GuiLibrary.Theme.Color1:Lerp(GuiLibrary.Theme.Color2, waveFactor)
 			end
 		end
 
@@ -131,7 +131,8 @@ task.spawn(function()
 end)
 local Modules = {}
 local ColorChangeEvent = Instance.new("BindableEvent")
-
+GuiLibrary.Theme = Theme
+GuiLibrary.ColorChangeEvent = ColorChangeEvent
 function GuiLibrary:NewWindow(Name)
 
 	local top = Instance.new("TextLabel", ScreenGui)
@@ -255,7 +256,7 @@ function GuiLibrary:NewWindow(Name)
 					if state == nil then state = not buttonData.Enabled end
 					buttonData.Enabled = state
 					task.delay(0.1,function() task.spawn(tab.Function, state) end)
-					TweenService:Create(button, TweenInfo.new(0.3), {BackgroundColor3 = state and Theme.Color2 or Color3.fromRGB(40,40,40)}):Play()
+					TweenService:Create(button, TweenInfo.new(0.3), {BackgroundColor3 = state and GuiLibrary.Theme.Color2 or Color3.fromRGB(40,40,40)}):Play()
 					if state then GuiLibrary.ArrayList.Add(tab.Name) else GuiLibrary.ArrayList.Remove(tab.Name) end
 					Config.Buttons[tab.Name].Enabled = buttonData.Enabled
 					task.delay(0.1, function()
@@ -302,7 +303,7 @@ function GuiLibrary:NewWindow(Name)
 						ToggleButton = function(state)
 							if state == nil then state = not toggleSettings.Enabled end
 							toggleSettings.Enabled = state
-							ToggleFrame.BackgroundColor3 = state and Theme.Color1 or Color3.fromRGB(30, 30, 30)
+							ToggleFrame.BackgroundColor3 = state and GuiLibrary.Theme.Color1 or Color3.fromRGB(30, 30, 30)
 							Config.Toggles[tab2.Name.."_"..tab.Name].Enabled = toggleSettings.Enabled
 							if ToggleButton.Position == UDim2.new(0, 0, 0, 0) then
 								ToggleButton:TweenPosition(UDim2.new(0.5, 0, 0, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.2, true)
