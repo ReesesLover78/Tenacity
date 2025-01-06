@@ -227,9 +227,7 @@ function GuiLibrary:NewWindow(Name)
 				end
 				keybindConnection = UserInputService.InputBegan:Connect(function(key, gpe)
 					if not gpe then
-						task.spawn(0.05, function()
-							keybindConnection:Disconnect()
-						end)
+						keybindConnection:Disconnect()
 						keybindButton.Text = "<b>"..key.KeyCode.Name.."</b>"
 						task.delay(0.1,function()
 							keybind = key.KeyCode
